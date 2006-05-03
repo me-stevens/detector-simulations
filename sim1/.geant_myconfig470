@@ -1,0 +1,56 @@
+#! /bin/tcsh 
+
+# Compiler
+set path = ( /usr/local/gcc-alt-3.2.3/bin $path )
+#setenv LD_LIBRARY_PATH /usr/local/gcc-alt-3.2.3/lib
+
+# General
+setenv G4INSTALL /home/admin/G4/geant4.7.0.p01
+setenv G4SYSTEM Linux-g++
+setenv CLHEP_BASE_DIR /home/admin/G4/clhep-1.8.1.0-gcc-3.2
+
+# Library paths
+setenv LD_LIBRARY_PATH /usr/local/gcc-alt-3.2.3/lib:/home/admin/G4/clhep-1.8.1.0-gcc-3.2/lib
+
+# Specific
+#setenv G4LIB_BUILD_SHARED 1
+setenv G4LIB_BUILD_STATIC 1
+setenv G4LIB_USE_GRANULAR 1
+
+# GUI
+setenv G4UI_BUILD_TERMINAL_SESSION 1
+#setenv G4UI_BUILD_XAW_SESSION 1
+#setenv G4UI_USE_TERMINAL 1
+#setenv G4UI_USE_XAW 1
+setenv G4UI_USE_TCSH 1
+
+# Visualization
+setenv OGLHOME /usr/X11R6
+setenv G4VIS_BUILD_OPENGLX_DRIVER 1
+setenv G4VIS_BUILD_DAWNFILE_DRIVER 1
+setenv G4VIS_BUILD_VRMLFILE_DRIVER 1
+
+setenv G4VIS_USE_OPENGLX 1
+setenv G4VIS_USE_DAWNFILE 1
+setenv G4VIS_USE_VRMLFILE 1
+setenv G4VRMLFILE_VIEWER vrmlview
+
+# G3toG4 module
+#setenv G4LIB_BUILD_G3TOG4 1
+#setenv G4USE_G3TOG4 1
+
+# Data
+setenv G4LEDATA               /home/admin/G4/geant4.7.0.p01/data/G4EMLOW2.3
+setenv NeutronHPCrossSections /home/admin/G4/geant4.7.0.p01/data/G4NDL3.7
+setenv G4LEVELGAMMADATA       /home/admin/G4/geant4.7.0.p01/data/PhotonEvaporation2.0
+setenv G4RADIOACTIVEDATA      /home/admin/G4/geant4.7.0.p01/data/RadiativeDecay3.0
+setenv G4ELASTICDATA          /home/admin/G4/geant4.7.0.p01/data/Elastic
+
+# Paths
+# include path for DAWN
+set path = ($path /home/admin/G4/dawn_3_86a/DAWN/bin/)
+# include path for VRML
+set path = ($path /home/admin/G4/SIM-VRMLview)
+# include . in path
+set path = ($path .)
+#

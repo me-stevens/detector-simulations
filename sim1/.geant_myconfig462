@@ -1,0 +1,63 @@
+#! /bin/sh 
+
+export G4SYSTEM          = Linux-g++
+export G4INSTALL         = /home/admin/G4/geant4.7.0.p01
+export CLHEP_BASE_DIR    = /usr/local/clhep
+export CLHEP_NAME        = CLHEP
+export CLHEP_LIB_DIR     = $CLHEP_BASE_DIR/lib
+export CLHEP_INCLUDE_DIR = $CLHEP_BASE_DIR/include
+
+
+#optionals... see manuals
+export G4WORKDIR              = /home/admin/G4/geant4.7.0.p01
+export G4TMP                  = $G4WORKDIR/tmp
+export G4BIN                  = $G4WORKDIR/bin
+export G4INCLUDE              = $G4INSTALL/include
+export G4UI_USE_TCSH          = 1
+export G4LEVELGAMMADATA       = $G4WORKDIR/data/PhotonEvaporation
+export G4RADIOACTIVEDATA      = $G4WORKDIR/data/RadiativeDecay
+export G4LEDATA               = $G4WORKDIR/data/G4EMLOW2.3
+export NeutronHPCrossSections = $G4WORKDIR/data/G4NDL3.7
+export G4ELASTICDATA          = $G4WORKDIR/data/Elastic
+
+
+export G4ANALYSIS_USE     = 1
+export G4DEBUG            = 1
+export G4LIB_BUILD_G3TOG4 = 1
+export G4USE_G3TOG4       = 1
+export G4LIB_BUILD_SHARED = 1
+export G4LIB_BUILD_STATIC = 1
+export G4LIB_USE_GRANULAR = 1
+
+
+#visualization
+#export G4UI_BUILD_XAW_SESSION      = 1
+#export G4UI_BUILD_XM_SESSION       = 1
+export G4VIS_BUILD_OPENGLX_DRIVER  = 1
+#export G4VIS_BUILD_OPENGLXM_DRIVER = 1
+#export G4VIS_BUILD_DAWN_DRIVER     = 1
+
+#export G4UI_USE_XAW       = 1
+#export G4UI_USE_XM        = 1
+export G4VIS_USE_OPENGLX  = 1
+#export G4VIS_USE_OPENGLXM = 1
+#export G4VIS_USE_DAWN     = 1
+
+
+#ROOT INTERFACE TO G4
+export G4UI_BUILD_ROOT_SESSION = 1
+export G4UI_USE_ROOT           = 1
+export OGLHOME = /usr/X11R6/lib
+
+
+
+LD_LIBRARY_PATH = $G4WORKDIR/lib/Linux-g++:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+LD_LIBRARY_PATH = /usr/local/clhep/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+PATH = $G4INSTALL/bin/Linux-g++:$PATH
+export PATH
+
+echo GEANT4 Variables Configured...

@@ -1,10 +1,14 @@
 # Detector simulations
 
-A collection of my very simple simulations, mostly gamma particle detectors.
+A collection of my very simple simulations, mostly gamma particle detectors. There are also some random physics analysis and plotting macros I worked in for the simulations.
+
 
 They use CERN's [Geant4](http://geant4.cern.ch) and [ROOT](https://root.cern.ch/drupal) libraries.
 
 Please find an explanation of the simulations in the dedicated site: http://detectorsims.tk
+
+For personal reference.
+
 
 ## Sim1
 
