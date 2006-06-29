@@ -1,0 +1,10 @@
+#! /bin/tcsh 
+
+# Variables
+setenv ROOTSYS /afs/ific.uv.es/project/gamma/root_v3.10.02.Linux.RH7.3.gcc296
+
+# Paths
+set path = ($path $ROOTSYS/bin)
+
+# Library paths
+setenv LD_LIBRARY_PATH $ROOTSYS/lib
