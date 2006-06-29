@@ -1,0 +1,18 @@
+# Execution macro to print track information
+#    /control/execute print-track.mac
+
+# Information level
+/run/verbose 0
+/event/verbose 0
+/tracking/verbose 1
+
+###################################
+
+## Particle type and energy
+#/gun/particle gamma
+#/gun/energy 1.0 MeV
+
+## Number of events to run (only few!)
+/run/beamOn 2
+
+###################################

@@ -1,0 +1,13 @@
+# Execution macro
+#    /control/execute spec-eff.mac
+
+###################################
+
+## Particle type and energy
+/gun/particle gamma
+#/gun/energy 5.0 MeV
+
+## Number of events to run
+/run/beamOn 10000
+
+###################################
