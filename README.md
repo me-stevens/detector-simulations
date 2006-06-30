@@ -22,10 +22,12 @@ A simulation of an active target with the Geant4 libraries. Includes three types
 
 A stabilization function for photo-multipliers coupled to NaI scintillators.
 
-## License
-
-MIT License
-
 ## Dedicated site
 
 http://detectorsims.tk
+
+## License
+
+[![License](https://img.shields.io/badge/gnu-license-green.svg?style=flat)](https://opensource.org/licenses/GPL-2.0)
+GNU License
+
