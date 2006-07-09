@@ -1,0 +1,26 @@
+A M A D E U S  FRS RUN64 --- Parameter Scaling --- No. 0     04-26-1999 07:44:01 
+ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ 
+MAGNET Brho/Tm   rho/m  B/T    Uhall/V    Factor     Brho/Tm   B/T      x/cm     
+TS3MU1 14.3142 11.1293 1.28617 6.56416 *  1.0000 ->  14.3142  1.28617  0.0000    
+TS3MU2 14.3142 11.2750 1.26955 6.34919 *  1.0000 ->  14.3142  1.26955  0.0000    
+TS4MU1 14.3142 11.2768 1.26935 6.34761 *  1.0000 ->  14.3142  1.26935  0.0000    
+HFSMU1 14.3142 11.2741 1.26965 6.34130 *  1.0000 ->  14.3142  1.26965  0.0000    
+อออออออออออออออออออออออออออออออออออออออหออออออออออออออออออออออออออออออออออออออออ 
+DEGRADER SYSTEM AT S2  (4.10-87.3) mm  บ  DEGRADER SYSTEM AT S4  (2.58-45.8) mm  
+total      0.00 mg/cmý TS3ED7L  -147.0 บ  total      0.00 mg/cmý HFSED3VO  150.0 
+offset     0.00 mg/cmý TS3ED7DS  out   บ  offset     0.00 mg/cmý HFSED3VU -150.0 
+degrad.    0.00 mm     TS3ED7VO  150.0 บ  degrad.    0.00 mm                     
+angle     0.000 mrad   TS3ED7VU -150.0 ฬออออออออออออออออออออออออออออออออออออออออ 
+slope  % 100.000cm/%  ษออออออออออออออออผ            BEHIND TARGET/DEGRADER       
+ออออออออออออออออออออออผ                             Z, Ne   82   0               
+PROJECTILE/FRAGMENT       TARGET/DEGRADER No. 1     A      208                   
+Z, Ne   82   0            Z       13       windw    sig(E)    2.32 MeV           
+A      208                A       26.98             sig(th)  0.028 mrad          
+E/A    1000.000 MeV       mass       4.07 mg/cmý    E/A(f)  999.749 MeV          
+p*c/A  1692.040 MeV       equivalent aluminium:     p*c/A  1691.754 MeV          
+Brho   14.3166 Tm         mass       4.07 mg/cmý    Brho   14.3142 Tm            
+v      26.2625 cm/ns      dE       52.17 MeV        Y(0e)  0.99335               
+แ       0.8760            achrom.  -4.252 cm/%      Y(1e)  0.00664               
+gamma   2.0735            monoch.  -0.001 cm/%      Y(2e)  0.00001               
+range    12059 mg/cmý     nucl.react. 0.037 %       range    12055 mg/cmý        
+ 
