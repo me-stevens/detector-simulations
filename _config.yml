@@ -1,0 +1,26 @@
+# Site settings
+title:       Detector Simulations
+description: Some random macros for personal reference
+baseurl:     "" # the subpath of your site, e.g. /blog/
+url:         "http://detectorsims.tk" # the base hostname & protocol for your site
+
+# User and repo names
+twitter_user: _mestevens
+git_user:     me-stevens
+git_repo:     detector-simulations
+
+# Sites
+geant4_url: http://geant4.web.cern.ch
+root_url:   https://root.cern.ch
+   
+# Build settings
+markdown: kramdown
+highlighter: pygments
+sass:
+    style: :compressed
+
+# sims
+sims:
+  "sim1": "Gamma detector"
+  "sim2": "Active target"
+  "sim3": "Stab. func."

@@ -1,0 +1,103 @@
+/* #Media Queries
+================================================== */
+@media only screen and (min-width: 30em) {
+	.button,
+	#goog-wm-sb {
+		display: inline-block;
+		width: 33%;
+	}
+
+	.github {
+		margin-right: 10%;
+	}
+}
+
+@media only screen and (min-width: 60em) {
+	nav {
+		padding: 0;
+	}
+
+	.menu-icon {
+		display: none;
+	}
+
+	.navigation {
+		max-height: 100%;
+		overflow: visible;
+		transition: none;
+		padding: .5em 0;
+
+		li,
+		a,
+		.item,
+		.bar {
+			display: inline-block;
+		}
+	
+		& > li {
+			position: relative;
+
+			&:nth-of-type(4) .bar {
+				display: none;
+			}
+		}
+
+		.bar {
+			color: inherit;
+			margin: 0 1em;
+		}
+
+		.item,
+		a {
+			padding: 0;
+			width: 10em;
+			border-bottom: none;
+			background-image: none;
+			cursor: pointer;
+		}
+	}
+
+	.submenu {
+		position: absolute;
+		top:  2em;
+		left: 5em;
+		transform: translate(-50%, 0);
+		border-radius: 0 0 1em 1em;
+		-webkit-box-shadow: .625em .625em .3em #e8e8e8;
+		   -moz-box-shadow: .625em .625em .3em #e8e8e8;
+		        box-shadow:    0em .1em   .3em #e8e8e8;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height .5s;
+
+		a {
+			display: block;
+			padding: .5em 1em;
+			width: 11em;
+			background-image: url('hr.png');
+		}
+	}
+
+	.navigation li:hover .submenu {
+		max-height: 10em;
+	}
+
+	.wrapper {
+		padding: 0
+	}
+
+	h1 {
+		padding-top: 1em;
+	}
+
+	.github span,
+	.twitter span {
+		background-position: 1.5em 50%;
+	}
+}
+
+@media only screen and (min-width: 50em) {
+	body {
+		font-size: 120%;
+	}
+}

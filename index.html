@@ -1,0 +1,36 @@
+---
+layout: default
+---
+
+		<h1>{{ site.title }}</h1>
+		<h2>{{ site.description }}</h2>
+
+		<div class="center">
+			<p class="button github"><a href="https://github.com/{{ site.git_user }}/{{ site.git_repo }}"><span>View repo</span></a></p>
+			<p class="button twitter"><a href="https://twitter.com/{{ site.twitter_user }}"><span>My twitter</span></a></p>
+		</div>
+
+		<hr>
+
+		<p>My <strong>old</strong> snippets of code. Beware! It might make your eyes bleed. They are here for personal reference mainly.</p>
+
+		<p>You will need the <a href="{{ site.geant4_url }}">Geant4</a> simulation libraries and the <a href="{{ site.root_url }}">ROOT</a> command interpreter installed in order for them to work.</p>
+
+		<p>Folders in this repo:</p>
+
+		<ul>
+			<li><code>sim1</code>: A simulation of a simple <strong>gamma detector</strong> with the Geant4 libraries.
+				<ul>
+					<li>Check <a href="{{ site.baseurl }}/sim1/setup.html">Set up</a>: Installing Geant4 and setting environment variables.</li>
+					<li>Check <a href="{{ site.baseurl }}/sim1/simulation.html">Simulation code</a>: Description of the simulation code and results.</li>
+				</ul></li>
+			<li><code>sim2</code>: A simulation of an <strong>active target</strong> with the Geant4 libraries. Includes three types of calculations:
+				<ul>
+					<li><a href="{{ site.baseurl }}/sim2/bragg.html">Bragg Curves</a>: Calculate the range of a particle in a medium using the Bragg Curve inflection point.</li>
+					<li><a href="{{ site.baseurl }}/sim2/kinefor.html">Kinematics fortran</a>: A FORTRAN routine to calculate the angles and energies of a particle dispersed in a medium.</li>
+					<li><a href="{{ site.baseurl }}/sim2/kinesim.html">Kinematics and simulation</a>: Run a kinematics batch inside the simulation.</li>
+				</ul></li>
+			<li><code>sim3</code>: A <strong>stabilization function</strong> for photo-multipliers coupled to NaI scintillators.</li>
+		</ul>
+
+		<p class="published">Published: 2007-01-12 18:32</p>

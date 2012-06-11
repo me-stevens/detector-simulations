@@ -1,0 +1,20 @@
+		<!--[if lt IE 7]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<nav role="navigation">
+
+			<a href="#" class="menu-icon">
+				<img src="{{ site.baseurl }}/css/hamburger.svg" width="18" height="15" alt="Hamburger icon">
+			</a>
+
+			<ul class="navigation">
+				<li><a href="{{ site.baseurl }}/">Home</a> <span class="bar">|</span> </li>{% for sim in site.sims %}
+				<li><span class="item">{{ sim[1] }}</span> <span class="bar">|</span> 
+					<ul class="submenu">{% for page in site.pages %}{% if (page.dir contains sim[0]) and (page.stitle) %}
+						<li><a href="{{ page.url | prepend: site.baseurl }}">{{ page.stitle }}</a></li>{% endif %}{% endfor %}
+					</ul>
+				</li>{% endfor %}
+			</ul>
+
+		</nav>

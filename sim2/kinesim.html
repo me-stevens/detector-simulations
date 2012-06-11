@@ -1,0 +1,32 @@
+---
+layout: page
+title:  "Kinematics Simulation"
+stitle: "kine simulation"
+date:   2007-06-27 21:07:34
+button: true
+---
+
+		<h2>The code</h2>
+
+		<p>Run <a href="http://pro.ganil-spiral2.eu/spiral2/instrumentation/actar-tpc/actarsim-2013-package/view">this simulation</a> in <a href="{{ site.geant4_url }}">Geant4</a> with the kinematics included. The bash file <code>cine.sh</code> (in the <code>kinesim/</code> folder) can be used for this purpose.</p>
+
+		<p>Option <code>#C</code> of this file allows to set the kinematic parameters, which tell the program to simulate a nuclear reaction and generate an output file that contains information about the energies and the angles of the projectile and the target. The output file is in ROOT format.</p>
+
+{% highlight bash %}
+#C) Track a reacion calculated from CINE
+
+/ActarSim/gun/reactionFromCine on
+/ActarSim/gun/Cine/incidentIon 1 2 1 0.0
+/ActarSim/gun/Cine/targetIon 1 2 1 0.0
+/ActarSim/gun/Cine/scatteredIon 1 2 1 2.0
+/ActarSim/gun/Cine/recoilIon 1 1 1 0.0
+/ActarSim/gun/Cine/reactionQ 1.647 MeV
+/ActarSim/gun/Cine/labEnergy 770 MeV
+#/ActarSim/gun/Cine/randomTheta on
+#/ActarSim/gun/Cine/thetaLabAngle 0.1
+{% endhighlight %}
+
+
+		<p>The simulation file can be opened and plotted with <code>cineReader.C</code>.</p>
+
+		<p class="published">Published: 2006-10-17 12:02</p>

@@ -1,0 +1,242 @@
+---
+layout: page
+title:  "Set up"
+stitle: "set up"
+date:    2006-04-28 15:56:04
+---
+
+				<h2>Basics</h2>
+
+
+				<p>This snippet uses Monte Carlo simulations to study the response of nuclear physics detectors to radiation. It uses the C++ libraries package <a href="{{ site.geant4_url }}">Geant4</a>.</p>
+
+				<p>The program to run is <code>sim1/test.cc</code>. It defines and creates all the necessary tools to launch a simulation. It also checks for certain environment variables that you may define when you work with Geant4. The relevant subroutines are in the <code>src</code> and <code>include</code> folders, where the source and header files are, respectively.</p>
+
+				<p>Once the program is compiled with the Geant4 libraries, the executable is generated in the <code>bin/Linux-g++/</code> folder. You can run it by typing:</p>
+
+				{% highlight bash %}
+$ . ./bin/Linux-g++/test
+				{% endhighlight %}
+
+				<p>The tracks can be visualized with <code>vis.mac</code>. This macro can be edited to try different configurations in <a href="http://geant4.kek.jp/GEANT4/vis/">DAWN</a>. There is a manual in the <a href="http://geant4.slac.stanford.edu/Presentations/vis/G4DAWNTutorial/G4DAWNTutorial.html">DAWN tutorial page</a>.</p>
+
+				<p>The detailed information of the tracks can be studied with the macro <code>print-track.mac</code>. The spectra of deposited energy can be obtained with <code>spec-eff.mac</code> and then visualized with <code>hplot.cpp</code> in ROOT, to calculate the total and peak efficiency.</p>
+
+				<p>Before you compile and run this program, you will need to install the Geant4 libraries.</p>
+
+
+				<h2>GEANT4 Installation Guide</h2>
+
+				<p>This short set of instructions are written to help in an individual installation of GEANT4. A file <a href="#geant_myconfig">.geant_myconfig</a> containing environment variables for GEANT4 should be used with this instructions. Please,	check the <a href="http://geant4.web.cern.ch/geant4/G4UsersDocuments/UsersGuides/InstallationGuide/html/">additional documentation</a> in the GEANT4 pages.</p>
+
+				<p>The guide has been elaborated using Fedora Core 3 with gcc3.4.2 and gcc3.4.3 and GEANT4.7.0.p01 with CLHEP 1.8.1.0. Please, note that paths and installation details could be different using other Linux flavours, compilers... </p>
+
+				<h3>Check your OS installation.</h3>
+
+				<ul>
+					<li><strong>Compiler:</strong> check it with the command:
+
+						{% highlight bash %}gcc -v{% endhighlight %}
+
+						<p>example (Fedora Core 1 with gcc 3.3.2):</p>
+
+						{% highlight bash %}
+$ gcc -v
+Reading specs from /usr/lib/gcc-lib/i386-redhat-linux/3.3.2/specs
+Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --enable-shared --enable-threads=posix --disable-checking --with-system-zlib --enable-__cxa_atexit --host=i386-redhat-linux
+Thread model: posix
+gcc version 3.3.2 20031022 (Red Hat Linux 3.3.2-1)
+						{% endhighlight %}
+
+						<p>It is stated in the GEANT4 documentation that some versions are not supported. In particular, gcc-2.96 distributed in RedHat 7.X is NOT supported.</p>
+					</li>
+						
+					<li><strong>Do you have OpenGL?</strong> Test it with the <a href="http://www.xfree86.org/4.2.0/glxinfo.1.html">command</a>:
+
+						{% highlight bash %}$ glxinfo{% endhighlight %}
+
+						<p>and <a href="http://www.xfree86.org/4.4.0/glxgears.1.html">check the velocity</a> with:</p>
+						{% highlight bash %}$ glxgears{% endhighlight %}
+
+						<p>A velocity above 500 FPS usually indicates a correct hardware installation.</p>
+
+						<p>The libraries for OpenGL could be in different locations (usually in <code>/usr/X11R6</code> or <code>usr/X11R6/lib</code>). Try with the command:</p>
+
+						{% highlight bash %}$ locate libGL.so{% endhighlight %}
+
+						<p>if you cannot find them.</p>
+							
+						<p>If you do not have OpenGL you should disable it in the configuration file (<code>.geant_myconfig</code>). Comment the line:</p>
+
+						{% highlight bash %}export G4VIS_USE_OPENGLX=1{% endhighlight %}
+	
+						<p>and use another graphics system.</p>
+					</li>
+						
+					<li>Install ROOT if it is still not operative on your system. <a href="{{ site.root_url }}">Download</a> it and follow the installation instructions. As well as <code>.gitignore</code>, there is a configuration file for ROOT variables, check out <a href="#root-configure">root-configure</a>.</li>
+				</ul>
+
+				<h3>Download the following files</h3>
+
+				<p>Most of them available from the <a href="{{ site.geant4_url }}">GEANT4 main web</a>, section download:</p> 
+
+				<ul>
+					<li><strong>Source files</strong> of GEANT4 in the selected version.</li>
+					<li><strong>Data files</strong>.</li>
+					<li><strong>CLHEP libraries</strong>. Install this previously to the other GEANT4 files. Follow the instructions in the GEANT4 download pages regarding the CLEHP library version that should be installed for the available GEANT4 version. </li>
+				</ul>
+
+				<h3>CLHEP installation</h3>
+
+				<ul>
+					<li>Check out the <strong>gcc version</strong> on your computer.</li>
+					<li><strong>Create</strong> (as root in your system) a directory for the CLHEP library installation; in my system I use <code>/usr/local/clhep</code>.</li>
+					<li><strong>Unzip the CLHEP</strong> version under the selected directory. If there is no precompiled version of the CLHEP library for your gcc version, download the sources and compile them. Use the <code>/usr/local/clhep</code> directory for the installation. You might need to create two symbolic links to the CLHEP library in the <code>/usr/local/clhep/lib</code> directory; for instance, if your library is libCLHEP-g++.1.8.1.0.a, go to the directory where the file is and type the commands:
+
+						{% highlight bash %}$ ln -s libCLHEP-g++.1.8.1.0.a libCLHEP-g++.a{% endhighlight %}
+
+						{% highlight bash %}$ ln -s libCLHEP-g++.1.8.1.0.a libCLHEP.a{% endhighlight %}
+	
+						<p>to have these two symbolic links to the library. </p>
+					</li>
+				</ul>
+
+				<h3>Create a directory for the GEANT4 code</h3>
+
+				<p>I normally use the directory name G4 in my local account.</p>
+
+				<ul>
+					<li><strong>decompress the source code</strong> of GEANT4.</li>
+					<li><strong>decompress the data files</strong> for GEANT4 and move the new directories to a directory called <code>/data</code> within the GEANT4 structure (for instance, in my local installation it is: <code>G4/geant4.6.2.p02/data</code>). </li>
+				</ul>
+  				
+				<p>Now you have two possibilities:</p>
+			
+				<ul>
+					<li><strong>Run the configuration script</strong> (<code>.geant_myconfig</code>) in the directory created by the GEANT4 source code (for instance in my case it is <code>G4/geant4.6.2.p02/</code>). Type the command:
+					{% highlight bash %}$ ./Configure -build{% endhighlight %}
+
+						<p>and follow the on-screen instructions. It will configure a set of environment variables which are already defined in the <code>.geant_myconfig</code>.</p>
+					</li>
+					
+					<li><strong>Edit</strong> the file <code>.geant_myconfig</code> to set the directories where the GEANT4 installation was performed. Also check the OpenGL directory (variable <code>$OGLHOME</code>).
+					</li>
+					
+					<li><strong>Run</strong> the file <code>.geant_myconfig</code> to set the environment variables and go to the source directory (<code>$G4INSTALL/source</code>) and type:
+
+						{% highlight bash %}$ gmake{% endhighlight %}
+
+					</li>
+
+					<li><strong>Move</strong> the file containing the environment variables for GEANT4 (<code>.geant_myconfig</code>) to your main directory (or under <code>/myusername/bin</code>, for instance) and run it as a script each time you want to use GEANT4. A good idea is to include the script in the <code>.bash_profile</code> or <code>.profile</code> files (whatever you use).</li>
+
+					<li><strong>Check</strong> that the variables are correctly installed on the system (for instance use the command:
+						
+						{% highlight bash %}$ set{% endhighlight %}</code> </p>
+
+						<p>and check the output to see the variables defined in the script). It is possible that you have to modify some variables in the file, if the paths do not match those in your installation.</p>
+					</li>
+				</ul>
+
+				<p>Once the process of building the libraries has been completed 	successfully, the Geant4 toolkit can be installed in the specified (already existing) installation area by typing:
+
+				{% highlight bash %}$./Configure -install{% endhighlight %}
+
+				<p>(I do not use this command and I stay with the program in the directory where it was compiled).</p>
+
+
+				<h3>Test</h3>
+
+				<p>Test the available GEANT4 examples, following the instruction in their README.</p>
+
+				<p>OPTIONAL: If you want a user interface for Geant4, download the <a href="http://delphiwww.cern.ch/~iglez/alice/G4UIRoot/installation.html">G4UIROOT</a> program and follow the installation instructions</p>
+
+				<h2 id="geant_myconfig">Geant4 configuration file</h2>
+
+					{% highlight bash %}
+#! /bin/tcsh 
+
+export G4SYSTEM          = Linux-g++
+export G4INSTALL         = /home/admin/G4/geant4.7.0.p01
+export CLHEP_BASE_DIR    = /usr/local/clhep
+export CLHEP_NAME        = CLHEP
+export CLHEP_LIB_DIR     = $CLHEP_BASE_DIR/lib
+export CLHEP_INCLUDE_DIR = $CLHEP_BASE_DIR/include
+
+
+#optionals... see manuals
+export G4WORKDIR              = /home/admin/G4/geant4.7.0.p01
+export G4TMP                  = $G4WORKDIR/tmp
+export G4BIN                  = $G4WORKDIR/bin
+export G4INCLUDE              = $G4INSTALL/include
+export G4UI_USE_TCSH          = 1
+export G4LEVELGAMMADATA       = $G4WORKDIR/data/PhotonEvaporation
+export G4RADIOACTIVEDATA      = $G4WORKDIR/data/RadiativeDecay
+export G4LEDATA               = $G4WORKDIR/data/G4EMLOW2.3
+export NeutronHPCrossSections = $G4WORKDIR/data/G4NDL3.7
+export G4ELASTICDATA          = $G4WORKDIR/data/Elastic
+
+
+export G4ANALYSIS_USE     = 1
+export G4DEBUG            = 1
+export G4LIB_BUILD_G3TOG4 = 1
+export G4USE_G3TOG4       = 1
+export G4LIB_BUILD_SHARED = 1
+export G4LIB_BUILD_STATIC = 1
+export G4LIB_USE_GRANULAR = 1
+
+
+#visualization
+#export G4UI_BUILD_XAW_SESSION      = 1
+#export G4UI_BUILD_XM_SESSION       = 1
+export G4VIS_BUILD_OPENGLX_DRIVER  = 1
+#export G4VIS_BUILD_OPENGLXM_DRIVER = 1
+#export G4VIS_BUILD_DAWN_DRIVER     = 1
+
+#export G4UI_USE_XAW       = 1
+#export G4UI_USE_XM        = 1
+export G4VIS_USE_OPENGLX  = 1
+#export G4VIS_USE_OPENGLXM = 1
+#export G4VIS_USE_DAWN     = 1
+
+
+#ROOT INTERFACE TO G4
+export G4UI_BUILD_ROOT_SESSION = 1
+export G4UI_USE_ROOT           = 1
+export OGLHOME = /usr/X11R6/lib
+
+
+
+LD_LIBRARY_PATH = $G4WORKDIR/lib/Linux-g++:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+LD_LIBRARY_PATH = /usr/local/clhep/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
+PATH = $G4INSTALL/bin/Linux-g++:$PATH
+export PATH
+
+echo GEANT4 Variables Configured...
+				{% endhighlight %}
+
+				<h2 id="root-configure">ROOT configuration file</h2>
+
+					{% highlight bash %}
+#! /bin/tcsh 
+
+# Variables
+setenv ROOTSYS /afs/ific.uv.es/project/gamma/root_v3.10.02.Linux.RH7.3.gcc296
+
+# Paths
+set path = ($path $ROOTSYS/bin)
+
+# Library paths
+setenv LD_LIBRARY_PATH $ROOTSYS/lib
+				{% endhighlight %}
+
+				<h2>Resources</h2>
+
+				<p>Check out the official <a href="http://geant4.web.cern.ch/geant4/UserDocumentation/UsersGuides/InstallationGuide/html/">Geant4 installation guide</a></p>
+
+
+				<p class="published">Published: 2006-04-28 15:56:04</p>

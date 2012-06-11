@@ -1,0 +1,41 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+/* Our variables */
+$base-font-family: 'Roboto Slab', 'Helvetica Neue', Helvetica, Arial, serif;
+$title-font-family:'Oswald', 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif;
+$base-font-size:   1em;
+$small-font-size:  $base-font-size * 0.8;
+$base-line-height: 1.5;
+
+$spacing-unit:     1.875em;
+
+$text-color:       #6d6d6d;
+$background-color: #e7e7e7;
+$brand-color:      #d5000d;
+
+$title-color:      #303030;
+$hover-color:      #c5000c;
+$border-color:     #e9e9e9;
+$code-color:       #f2f2f2;
+$grey-color:       #aaa;
+
+$footer-color:     #666;
+$footer-hover:     #444;
+
+$on-palm:          37.5em; //600px
+$on-laptop:        50em;   //800px
+
+
+@import
+	"normalize",
+	"base",
+	"layout",
+	"style",
+	"pygment_trac",
+	"mediaqueries",
+	"print"
+;
+

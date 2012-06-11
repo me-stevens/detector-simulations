@@ -1,0 +1,127 @@
+.browsehappy {
+	margin: 0.2em 0;
+	background: #ccc;
+	color: #000;
+	padding: 0.2em 0;
+}
+
+/* I might simplify this in the future */
+.button,
+#goog-wm-sb {
+	display: block;
+	padding: 0;
+	border-radius: 1.8em;
+	border:   solid .1em #b7b7b7;
+	border-top-color:    #cbcbcb;
+	border-bottom-color: #b3b3b3;
+	font-size:  $small-font-size;
+	background: #fdfdfd; /* Old browsers */
+	background: -moz-linear-gradient(top, #fdfdfd 0%, $code-color 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,$code-color)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fdfdfd 0%,$code-color 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fdfdfd 0%,$code-color 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fdfdfd 0%,$code-color 100%); /* IE10+ */
+	background: linear-gradient(top, #fdfdfd 0%,$code-color 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='$code-color',GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow: .625em .625em .3em #e8e8e8;
+	   -moz-box-shadow: .625em .625em .3em #e8e8e8;
+	        box-shadow:    0em .1em   .3em #e8e8e8;
+
+	&:hover {
+	  	border: solid .1em #b3b3b3;
+		border-top-color:  #b7b7b7;
+		background: #fafafa; /* Old browsers */
+		background: -moz-linear-gradient(top, #fdfdfd 0%, #f6f6f6 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#f6f6f6)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top, #fdfdfd 0%,#f6f6f6 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top, #fdfdfd 0%,#f6f6f6 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top, #fdfdfd 0%,#f6f6f6 100%); /* IE10+ */
+		background: linear-gradient(top, #fdfdfd 0%,#f6f6f6, 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-9 */
+	}
+
+	span {
+		display:     block;
+		height:      3em;
+		line-height: 3em;
+		vertical-align: middle;
+		padding-left: 0em;
+	}
+
+	a {
+		font-weight: 700;
+		color: $title-color;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+#goog-wm-sb {
+	height:      3em;
+	line-height: 3em;
+	font-weight: 700;
+	color: $title-color;
+}
+
+#goog-wm-qt {
+	margin: .1em 1em 0 0;
+	padding: 0 1em;
+	width: 15em;
+	line-height: 2.3em;
+	background-color: $title-color;
+	color: $grey-color;
+	border: 0;
+}
+
+.search-goog {
+	list-style-type: none;
+
+	form {
+		margin: 3em 0;
+	}
+}
+
+.github span,
+.twitter span,
+.published {
+	background: transparent 1em 50% no-repeat;
+}
+
+.github {
+	span {
+		background-image: url(octocat-icon.png);
+	}
+}
+
+.twitter {
+	span {
+		background-image: url(twitter.png);
+	}
+}
+
+.published {
+		background-image: url(clock.png);
+		padding-left: 4em;
+		height: 3em;
+		line-height: 3em;
+		color: $grey-color;
+}
+
+.imgfooter {
+	display: block;
+	font-size: $small-font-size;
+	letter-spacing: .05em;
+	color: $footer-hover;
+}
+
+.show,
+.hide {
+	color: $brand-color;
+	cursor: pointer;
+}
+
+.show:hover,
+.hide:hover {
+	text-decoration: underline;
+}

@@ -1,0 +1,204 @@
+---
+layout:  page
+title:   "Bragg Curves"
+stitle:  "bragg curves"
+date:    2007-02-05 21:07:34
+button:  true
+mathjax: true
+---
+
+		<p>This is part of a simulation of an <strong>active target</strong> with the Geant4 libraries.</p>
+
+		<h2>The code</h2>
+
+		<p>Run <a href="http://pro.ganil-spiral2.eu/spiral2/instrumentation/actar-tpc/actarsim-2013-package/view">this simulation</a> in <a href="{{ site.geant4_url }}">Geant4</a> to generate an output file that contains information about the interactions, positions, energy, energy loss per step, etc. of a particle entering a gas detector. The output file is in ROOT format.</p>
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/detector-box.jpg" width="500" height="381" alt="Detector box geometry">
+			<img src="{{ site.baseurl }}/img/detector-tube.jpg" width="500" height="381" alt="Detector tube geometry" style="margin-top: 1em">
+			<span class="imgfooter">The figures above show examples of the cubic and tube detector geometries.</span>
+		</p>
+
+		<p>The macros in the <code>bragg</code> folder allow you to open this ROOT simulation file, read and manipulate its contents, fit data, etc. The aim of these snippets is to calculate the range of certain ions in a gaseous medium. One of the possible ways to do that is by calculating the inflection point of the <a href="http://en.wikipedia.org/wiki/Bragg_peak">Bragg curve</a>.</p>
+
+
+
+
+		<h3>Simulation</h3>
+		
+		<p>In this repo you will find an example of the simulation of <sup>1</sup>H, <sup>6</sup>He, <sup>19</sup>C, <sup>27</sup>S and <sup>56</sup>Ni ions, entering a 1x1x20 m<sup>3</sup> cube filled with isobutane gas (2.67 mg/cm3 in STP conditions, composition C<sub>4</sub>H<sub>10</sub>), with energies from 1 to 150 <a href="http://en.wikipedia.org/wiki/Electronvolt">MeV</a>/u, and with the electric and magnetic fields turned off. You can also set the number of runs to be launched for each energy.</p>
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/detector-tracks.png" width="500" height="377" alt="Tracks inside the detector">
+			<span class="imgfooter">Tracks inside the detector.</span>
+		</p>
+
+		
+
+		<h3>The files</h3>
+
+		<h4><code>range.C</code> (and <code>range.h</code>)</h4>
+
+		<p>You can manipulate the simulation file with <code>range.C</code>, which has to be run in a ROOT prompt. This program opens the simulation file, reads all the events in it, fills in the relevant histograms and saves them into the simulation file. Then it performs a fit and writes the fit parameters to an output file.
+
+{% highlight bash %}
+$ root -l           // -l avoids printing the header
+$root[] .L range.C  // .L Loads the macro
+$root[] range t     // Creates an object
+$root[] t.Loop();   // Loop on all entries
+$root[] .q          // Quit
+{% endhighlight %}
+
+		<p>The object of interest inside the simulation file is <code>stepSumLengthOnGasPrim1</code>, which saves the range of the particle in the material for every run (i.e., the sum of the length of all the steps until the particle is stopped in the gas). The values of the range will slightly vary from one run to the other, but they will tend to fall around a value (so, to have decent statistics, launch around 1000 runs for each energy in the simulation). The program builds a histogram with the values of the range and fits it to a Gaussian curve:</p>
+
+{% highlight cpp linenos %}
+TF1 *f1 = new TF1("f1","gaus");
+Double_t par[3];  
+Double_t *parErr;  
+parErr = new Double_t[3];
+
+hStepSumLengthOnGas1->Fit("f1");
+f1->GetParameters(par);
+parErr = f1->GetParErrors();
+{% endhighlight %}
+
+		<p><code>par[3]</code> saves the mean value of the range, the sigma and the chi squared of the fit, and <code>parErr</code> saves the errors. In the output file (<code>range.dat</code>) we save the energy, the range and the sigma with their corresponding errors.</p>
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/13C_500_1000_histos.gif" width="500" height="340" alt="Gaussian fit of the range for an energy">
+			<span class="imgfooter">The figure shows the Gaussian fit for a Carbon ion entering isobutane. The fluctuations are due to the nature of the low energy interactions at the end of the track.</span>
+		</p>
+
+
+		<hr>
+		
+		<h4><code>readrange.C</code></h4>
+
+		<p>Repeat the simulation for different values of energy to have a collection of pairs of energy and range. Inside ROOT, run <code>readrange.C</code> (it's in the <code>bragg/fits</code> directory) to read this collection and fit the resulting curve:</p>
+
+{% highlight bash %}
+$ root -l
+$root: .x readrange.C
+{% endhighlight %}
+
+		<p>In this case, the macro doesn't use a ROOT fit function, but a user defined function, <code>myfit.C</code>:</p>
+
+		<p class="center"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>R</mi><mo>=</mo><mi>a</mi><msup><mi>E</mi><mi>b</mi></msup></math></p>
+
+		<p>where <em>R</em> is the range, <em>E</em> is the energy, <em>a</em> gives information on the particle and <em>b</em> gives information on the medium.</p>
+
+{% highlight cpp linenos %}
+Double_t myfit(Double_t *x, Double_t *par) {
+  // Trying to fit to R = a * E^b
+  // x      = Array of energies (E)
+  // par[0] = Fist parameter    (a)
+  // par[1] = Second parameter  (b)
+  // fitval = Range             (R)
+
+   Double_t fitval = par[0]*pow(x[0],par[1]);
+   return fitval;
+}
+{% endhighlight %}
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/001proton_1000_range.gif" width="500" height="373" alt="Fit of the range as a function of the energy">
+			<span class="imgfooter">The figure shows the range dependency on the energy for a proton stopped in isobutane.</span>
+		</p>
+
+		<p>These results can be easily compared with tables and calculations from <a href="http://www.srim.org/">SRIM</a>, <a href="http://web-docs.gsi.de/~weick/atima/">ATIMA</a>, etc.</p>
+
+
+
+		<hr>
+
+		<h4><code>bragg.C</code> (and <code>bragg.h</code>)</h4>
+
+		<p>To compare the simulations with experimental data, it is easier to work with the <strong>Bragg peak</strong>, because it is easy to identify it in the data (however, the end of the track is affected by fluctuations and the detection threshold). From the tracks of the simulation file, it is possible to calculate their corresponding Bragg curves.</p>
+
+		<p>The range can be obtained from the Bragg curve by searching the inflection point in the region at the end of the curve. The inflection point is the point where the curvature changes from concave to convex. At such a point, the second derivative is zero and changes sign from there on.</p>
+		
+		<p>In <code>bragg.C</code>, the relevant objects are loaded and the histograms built. Since a histogram is not a continuous curve but a discrete set of bins, a "discrete" derivative has to be calculated:</p>
+
+		<p class="center">
+			<math xmlns="http://www.w3.org/1998/Math/MathML"><msub><menclose notation="right"><mfrac><mrow><mi>&#916;</mi><mi>H</mi></mrow><mrow><mi>&#916;</mi><mi>z</mi></mrow></mfrac></menclose><mi>i</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>H</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>-</mo><msub><mi>H</mi><mi>i</mi></msub></mrow><mrow><msub><mi>z</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>-</mo><msub><mi>z</mi><mi>i</mi></msub></mrow></mfrac></math>		
+		</p>
+
+		<p>where H<sub>i</sub> is the content of the bin z<sub>i</sub> of the histogram, and z<sub>i+1</sub> - z<sub>i</sub> is the size of the pads in the active wall of the detector (the part of the detector that actually "detects"). The <code>pad</code> size is 1.5 mm.</p>
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/detector-proj.jpg" width="500" height="289" alt="Projection of a track over the pads">
+			<span class="imgfooter">When a particle enters the detector, its interaction with the gas produces tracks that are detected by the pads in the active wall.</span>
+		</p>
+
+		<p>In the code, the <code>braggcurve</code> histogram is built, and then the <code>derivative</code> histogram is manually built from it, as explained above. The second derivative is calculated in the same way and stored in the <code>derivative2</code> histogram:
+		
+{% highlight cpp linenos %}
+// MANUAL CALCULATION OF THE DERIVATIVES OF THE BRAGG CURVE
+derivative->SetBinContent( 1,(braggCurve->GetBinContent(2) - braggCurve->GetBinContent(1))/pad);
+derivative->SetBinContent( 2,(braggCurve->GetBinContent(3) - braggCurve->GetBinContent(2))/pad);
+derivative2->SetBinContent(1,(derivative->GetBinContent(2) - derivative->GetBinContent(1))/pad);
+
+for(Int_t k=1; k<numberOfBins-3; k++) {
+derivative->SetBinContent( k+2,(braggCurve->GetBinContent(k+3) - braggCurve->GetBinContent(k+2))/pad);
+derivative2->SetBinContent(k+1,(derivative->GetBinContent(k+2) - derivative->GetBinContent(k+1))/pad);
+derivative3->SetBinContent( k, (derivative2->GetBinContent(k+1)- derivative2->GetBinContent(k)) /pad);
+}
+{% endhighlight %}
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/13C_500_1000_bragg.png" width="600" height="408" alt="Bragg curves and derivative">
+			<span class="imgfooter">First panel: Bragg curve. Second panel: First derivative. Third panel: Second derivative. Fourth panel: All together.</span>
+		</p>
+
+
+		<p>Then the program fits the last part of the Bragg curve to a third order function. Imposing the condition that the second derivative has to be zero, the inflection point <code>x</code> can be obtained from the parameters of the fit.:</p>
+		
+		<p class="center">
+			<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msub><mi>a</mi><mn>0</mn></msub><mo>+</mo><msub><mi>a</mi><mn>1</mn></msub><mi>x</mi><mo>+</mo><msub><mi>a</mi><mn>2</mn></msub><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msub><mi>a</mi><mn>3</mn></msub><msup><mi>x</mi><mn>3</mn></msup><mo>,</mo></math>
+			<br>
+			<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo>'</mo><mo>'</mo><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mn>0</mn><mo>&#160;</mo><mo>&#8658;</mo><mo>&#160;</mo><mi>x</mi><mo>=</mo><mfrac><msub><mi>a</mi><mn>2</mn></msub><mrow><mn>3</mn><msub><mi>a</mi><mn>3</mn></msub></mrow></mfrac></math>
+		</p>
+		
+		<p>The program first performs a <strong>smoothing</strong> of the histogram, and then takes the last 5 pads (bins) to make the fit. Then, it writes the fit parameters to <code>fit.dat</code>.</p>
+
+{% highlight cpp linenos %}
+TF1 *myfit = 0;
+myfit = new TF1("myfit", "pol3", minPos, maxPos); // Fit to a function in the interval [minPos, maxPos]
+h->Smooth(50, -1, -1); // Smooth the entire histo 50 times before fitting
+h->Fit("myfit", "RQ");
+
+myfit->GetParameters(par);
+parErr = myfit->GetParErrors();
+
+if (par[3] != 0 && par[2] != 0) {
+	inflexionPoints    = - ( par[2] / (3*par[3]) );
+	inflexionPointsErr = (inflexionPoints / 3)*sqrt( pow(parErr[2] / par[2], 2) + pow(parErr[3] / par[3], 2) );
+}
+{% endhighlight %}
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/13C_500_1000_inflection.gif" width="500" height="374" alt="Third order fit">
+			<span class="imgfooter">Fit to a third order function to calculate the inflection point.</span>
+		</p>
+
+		<p>This is done for each run, and the statistics of the inflection point for that ion / gas are saved in another histogram. Then, it performs a Gaussian fit to this histogram, and the results of the fit with their errors are saved in <code>inflectionP.dat</code>. 
+
+{% highlight cpp linenos %}
+TF1 *gauss = new TF1("gauss", "gaus");
+Double_t param[3];
+Double_t *paramErr;  
+paramErr = new Double_t[3];
+
+inflectionPoint->Fit("gauss");
+gauss->GetParameters(param);
+paramErr = gauss->GetParErrors();
+{% endhighlight %}
+
+		<p class="center">
+			<img src="{{ site.baseurl }}/img/13C_500_1000_inflectionP.gif" width="500" height="374" alt="Inflection Point">
+			<span class="imgfooter">The inflection point of the Bragg curve represents the range of the particle.</span>
+		</p>
+
+		<p>The inflection point is what can be easily obtained with an emperiment. The range is what can be easily obtained with a simulation. It would be ideal to find a relationship between the two.</p>
+
+		<p class="published">Published: 2007-02-05 21:07:34</p>
