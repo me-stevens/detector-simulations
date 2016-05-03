@@ -11,8 +11,7 @@ date:    2006-04-29 22:28:31
 
 				<p>In <code>testDetectorConstruction.hh</code> and <code>testDetectorConstruction.cc</code>, the geometry is defined. The detector is a compact cylinder of radius 2.5 cm and a height of 5 cm, with its axis parallel to the Z axis, and separated 10 cm from the origin of coordinates. A simulation was done with a height of 10 cm too. The material was set to Ge, and later on, to CsI. The cylinder is placed in the vacuum.</p>
 
-				{% highlight cpp linenos %}
-// Detector as a Germanium cylinder
+				<pre class="line-numbers"><code class="language-cpp">// Detector as a Germanium cylinder
 G4double minRadius  = 0.0*cm;
 G4double maxRadius  = 2.5*cm;
 G4double startPhi   = 0.*deg;
@@ -24,8 +23,7 @@ G4ThreeVector positionDetector = G4ThreeVector(0.*cm, 0.*cm, distance);
 
 G4Tubs* solidDetector            = new G4Tubs("Detector", minRadius, maxRadius, halfLength, startPhi, deltaPhi);
 G4LogicalVolume* logicDetector   = new G4LogicalVolume(solidDetector, Ge, "Detector");
-G4VPhysicalVolume* physiDetector = new G4PVPlacement(0, positionDetector, "Detector", logicDetector, physiWorld, false, 0);
-				{% endhighlight %}
+G4VPhysicalVolume* physiDetector = new G4PVPlacement(0, positionDetector, "Detector", logicDetector, physiWorld, false, 0);</code></pre>
 
 
 				<p class="center">
@@ -36,7 +34,7 @@ G4VPhysicalVolume* physiDetector = new G4PVPlacement(0, positionDetector, "Detec
 
 
 				<h3>Event generator</h3>
-				
+
 				<p>In <code>testPrimaryGenerationAction.hh</code> and <code>testPrimaryGenerationAction.cc</code>, the primary generator is set to a gamma of 1 MeV, which is launched from the origin with a fixed direction, fixed by the angular coordinates &theta; and &phi;, whose value is generated randomly. The minimum value of &theta; is 0 degrees, and the maximum is fixed by the system's aperture, which in this case is 14 degrees. The &phi; angle goes from 0 to 360 degrees. With these values, we create a unitary vector in spherical coordinates that sets the direction of the gammas momentum.</p>
 
 				<p class="center">
@@ -44,8 +42,7 @@ G4VPhysicalVolume* physiDetector = new G4PVPlacement(0, positionDetector, "Detec
 					<span class="imgfooter">Knowing the radius and the distance from the origin, we can calculate the azimuthal angle.</span>
 				</p>
 
-				{% highlight cpp %}
-void testPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) { 
+				<pre><code class="language-cpp">void testPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	// Generation of primary particles
 
@@ -78,54 +75,49 @@ void testPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
 
 	particleGun->GeneratePrimaryVertex(anEvent);
 }
-				{% endhighlight %}				
+				</code></pre>
 
 				<h3>Particles and processes included</h3>
 
 				<p>In <code>testPhysicsList.hh</code> and <code>testPhysicsList.cc</code>, gammas, electrons and positrons are created (&gamma, e<sup>-</sup> and e<sup>+</sup>). The physical processes are different for each particle. For gammas, we ste discrete processes like Compton, photoelectric and pair production, and for electrons/positrons,  multiple collisions, ionization and bremsstrahlung. For positrons, we add anihillation as well.</p>
 
-				{% highlight cpp linenos %}
-if (particleName == "gamma") {     // gamma
+				<pre class="line-numbers"><code class="language-cpp">if (particleName == "gamma") {     // gamma
 
 	pmanager->AddDiscreteProcess(new G4PhotoElectricEffect);
 	pmanager->AddDiscreteProcess(new G4ComptonScattering);
 	pmanager->AddDiscreteProcess(new G4GammaConversion);
-			
+
 } else if (particleName == "e-") { //electron
 
 	pmanager->AddProcess(new G4MultipleScattering, -1,  1, 1);
 	pmanager->AddProcess(new G4eIonisation,        -1,  2, 2);
-	pmanager->AddProcess(new G4eBremsstrahlung,    -1, -1, 3);			
+	pmanager->AddProcess(new G4eBremsstrahlung,    -1, -1, 3);
 
 } else if (particleName == "e+") { //positron
 
 	pmanager->AddProcess(new G4MultipleScattering, -1,  1, 1);
 	pmanager->AddProcess(new G4eIonisation,        -1,  2, 2);
 	pmanager->AddProcess(new G4eBremsstrahlung,    -1, -1, 3);
-	pmanager->AddProcess(new G4eplusAnnihilation,   0, -1, 4);			
-}
-				{% endhighlight %}
+	pmanager->AddProcess(new G4eplusAnnihilation,   0, -1, 4);
+}</code></pre>
 
 
 <p>Bremsstrahlung and ionization mix discrete and continuous processes, so cuts are defined for the energy. Over this energy cuts, we consider the processes as discrete, below it, as continuous. In this way, if the energy loss is very low we can consider it approximately continuous, and if it is very big, we don't follow the particle.</p>
 
-				{% highlight cpp linenos %}
-testPhysicsList::testPhysicsList() : G4VUserPhysicsList() {
+				<pre class="line-numbers"><code class="language-cpp">testPhysicsList::testPhysicsList() : G4VUserPhysicsList() {
 
 	// 10 mu default cut value
-	defaultCutValue = 0.01*mm;	 
-}
-				{% endhighlight %}
+	defaultCutValue = 0.01*mm;
+}</code></pre>
 
 
 				<h3>Gathering information</h3>
 
 				<p>According to Geant4 terminology, a <strong>run</strong> is a collection of events. Through <code>testRunAction</code> and <code>testEventAction</code>, we have control over the start and end of a run and an event, and in <code>testSteppingAction</code> we have control over the end of each step.</p>
 
-				{% highlight cpp linenos %}
-void testSteppingAction::UserSteppingAction(const G4Step* aStep) {
+				<pre class="line-numbers"><code class="language-cpp">void testSteppingAction::UserSteppingAction(const G4Step* aStep) {
 
-	// Collect the energy deposited in the sensitive volume	
+	// Collect the energy deposited in the sensitive volume
 	const G4String currentPhysicalName = aStep->GetPreStepPoint()->GetPhysicalVolume()->GetName();
 
 	if (currentPhysicalName == "Detector") {
@@ -134,12 +126,10 @@ void testSteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 		if (EdepStep > 0.)
 			eventAction->addEdep(EdepStep);
-	 } 
-}
-				{% endhighlight %}
+	 }
+}</code></pre>
 
-				{% highlight cpp linenos %}
-void testEventAction::EndOfEventAction(const G4Event* evt) {
+				<pre class="line-numbers"><code class="language-cpp">void testEventAction::EndOfEventAction(const G4Event* evt) {
 
 	if (TotalEnergyDeposit > 0.) {
 
@@ -149,39 +139,34 @@ void testEventAction::EndOfEventAction(const G4Event* evt) {
 		// add total counts
 		runAction-> addTotalCount();
 	}
-}
-				{% endhighlight %}
+}</code></pre>
 
-				{% highlight cpp linenos %}
-void testRunAction::EndOfRunAction(const G4Run*) { 
+				<pre class="line-numbers"><code class="language-cpp">void testRunAction::EndOfRunAction(const G4Run*) {
 
 	//write efficiency
 	ofstream efficiencyOutputFile("test.eff");
 
-	efficiencyOutputFile << " Efficiency for test detector" << G4endl; 
-	efficiencyOutputFile << " Total efficiency = " << TotalCounts << G4endl; 
+	efficiencyOutputFile << " Efficiency for test detector" << G4endl;
+	efficiencyOutputFile << " Total efficiency = " << TotalCounts << G4endl;
 
 	//write histograms
 	ofstream histogramOutputFile("test.vec");
 
 	if (NumberChannel > 0) {
 		for(G4int ind=0; ind < NumberChannel; ind++) {
-			histogramOutputFile << setw(6) << ind+1 << 
+			histogramOutputFile << setw(6) << ind+1 <<
 			setw(10) << Histogram[ind] << G4endl;
 		}
 	}
-}
-				{% endhighlight %}
+}</code></pre>
 
 
 
 				<p>In <code>testSteppingAction.hh</code> and <code>testSteppingAction.cc</code>, we collect the energy deposited in each step of an event, and in <code>testEventAction.hh</code> and <code>testEventAction.cc</code> we collect the total energy deposited. Later, in <code>testRunAction.hh</code> and <code>testRunAction.cc</code> the histograms and efficiency are generated and saved in <code>test.vec</code> (a file with two columns, one for the channel, and another for the content of the channel) and <code>test.eff</code> (which contains the value of the sum of the total counts or the peak counts).</p>
 
-				{% highlight cpp linenos %}
-void testEventAction::addEdep(G4double Edep) {
+				<pre class="line-numbers"><code class="language-cpp">void testEventAction::addEdep(G4double Edep) {
 	TotalEnergyDeposit += Edep;
-}
-				{% endhighlight %}
+}</code></pre>
 
 				<p>The batch file <code>hplot.cc</code> is used to plot the histogram using the ROOT command interpreter.</p>
 
@@ -190,8 +175,7 @@ void testEventAction::addEdep(G4double Edep) {
 
 				<p>The macro <code>vis.mac</code> allows us to visualize and manipulate our geometric configuration using <a href="http://geant4.kek.jp/GEANT4/vis/">DAWN</a>. If we modify the runs, the type of particle and the energy, we can try different experimental configurations.</p>
 
-				{% highlight bash linenos %}
-# Visualization and execution macro
+				<pre class="line-numbers"><code class="language-bash"># Visualization and execution macro
 #    /control/execute vis.mac
 
 # Visualization commands
@@ -224,8 +208,7 @@ void testEventAction::addEdep(G4double Edep) {
 ###################################
 
 # Refresh view
-/vis/viewer/flush
-				{% endhighlight %}
+/vis/viewer/flush</code></pre>
 
 
 
@@ -248,8 +231,7 @@ void testEventAction::addEdep(G4double Edep) {
 
 				<p>The macro <code>print-track.mac</code> obtains information on what's happening to the photons, electrons and positrons in real time, and whether they leave the material, which of the processes we defined are they suffering, which secondary particles are produced in those interactions, how much energy are they losing, etc. We can see the processes as they happen and which particles they generate run by run for each event.</p>
 
-				{% highlight bash linenos %}
-# Execution macro to print track information
+				<pre class="line-numbers"><code class="language-bash"># Execution macro to print track information
 #    /control/execute print-track.mac
 
 # Information level
@@ -262,8 +244,7 @@ void testEventAction::addEdep(G4double Edep) {
 #/gun/energy 1.0 MeV
 
 ## Number of events to run (only few!)
-/run/beamOn 2
-				{% endhighlight %}
+/run/beamOn 2</code></pre>
 
 
 
@@ -272,8 +253,7 @@ void testEventAction::addEdep(G4double Edep) {
 
 				<p>Using the macro <code>spec-eff.mac</code> we can obtain the plots of the energy deposited in the detector for the particles defined in the <code>testPhysicsList,</code> and loading the batch file <code>hplot.cc</code> in ROOT we can visualize the histograms, as we did before.</p>
 
-				{% highlight bash linenos %}
-# Execution macro
+				<pre class="line-numbers"><code class="language-bash"># Execution macro
 #    /control/execute spec-eff.mac
 
 ## Particle type and energy
@@ -281,15 +261,12 @@ void testEventAction::addEdep(G4double Edep) {
 #/gun/energy 5.0 MeV
 
 ## Number of events to run
-/run/beamOn 10000
-				{% endhighlight %}
+/run/beamOn 10000</code></pre>
 
 				<p>We can get the theta efficiency from the file <code>test.eff</code>.
 
-				{% highlight bash %}
- Efficiency for test detector
- Total efficiency = 1367
-				{% endhighlight %}
+				<pre><code class="language-bash">Efficiency for test detector
+ Total efficiency = 1367</code></pre>
 
 				<p class="center">
 					<img src="{{ site.baseurl }}/img/cyl-Egammas.png" width="1010" height="713" alt="Histogram plotting the energy vs the counts">

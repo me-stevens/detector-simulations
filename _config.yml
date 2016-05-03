@@ -12,10 +12,9 @@ git_repo:     detector-simulations
 # Sites
 geant4_url: http://geant4.web.cern.ch
 root_url:   https://root.cern.ch
-   
+
 # Build settings
 markdown: kramdown
-highlighter: pygments
 sass:
     style: :compressed
 

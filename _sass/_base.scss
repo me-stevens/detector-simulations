@@ -20,13 +20,13 @@ body {
 
 ::-moz-selection {
     background: $brand-color;
-	color: white;
+    color: white;
     text-shadow: none;
 }
 
 ::selection {
     background: $brand-color;
-	color: white;
+    color: white;
     text-shadow: none;
 }
 
@@ -153,8 +153,8 @@ blockquote {
 
 
 code, pre {
-	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
-	color: $text-color;
+	// font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
+	// color: $text-color;
 	margin-bottom: 1.875em;
 	font-size: .875em;
 }
@@ -166,17 +166,17 @@ code {
 }
 
 pre {
-	padding: 1.25em;
-	background: $title-color;
-	color: $code-color;
-	text-shadow: none;
-	overflow: auto;
-
+// 	padding: 1.25em;
+//  background: $title-color;
+//  color: $code-color;
+// 	text-shadow: none;
+// 	overflow: auto;
+//
 	code {
-		color: $code-color;
-		background-color: $title-color;
+// 		color: $code-color;
+// 		background-color: $title-color;
 		border: none;
-		padding: 0;
+// 		padding: 0;
 	}
 }
 

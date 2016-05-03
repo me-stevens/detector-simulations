@@ -12,8 +12,7 @@ button: true
 
 		<p>Option <code>#C</code> of this file allows to set the kinematic parameters, which tell the program to simulate a nuclear reaction and generate an output file that contains information about the energies and the angles of the projectile and the target. The output file is in ROOT format.</p>
 
-{% highlight bash %}
-#C) Track a reacion calculated from CINE
+<pre><code class="language-bash">#C) Track a reacion calculated from CINE
 
 /ActarSim/gun/reactionFromCine on
 /ActarSim/gun/Cine/incidentIon 1 2 1 0.0
@@ -24,7 +23,7 @@ button: true
 /ActarSim/gun/Cine/labEnergy 770 MeV
 #/ActarSim/gun/Cine/randomTheta on
 #/ActarSim/gun/Cine/thetaLabAngle 0.1
-{% endhighlight %}
+</code></pre>
 
 
 		<p>The simulation file can be opened and plotted with <code>cineReader.C</code>.</p>

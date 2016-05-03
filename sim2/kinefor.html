@@ -12,34 +12,28 @@ button: true
 
 		<p>To compile:</p>
 
-{% highlight bash %}
-$ g77 CINE.for -o CINE
-{% endhighlight %}
+<pre><code class="language-bash">$ g77 CINE.for -o CINE</code></pre>
 
 		<p>To run:</p>
 
-{% highlight bash %}
-$ ./CINE
-{% endhighlight %}
+<pre><code class="language-bash">$ ./CINE</code></pre>
 
 		<p><code>CINE</code> requires an input file "<code>cine.in</code>" with data about the reaction in the following format:</p>
 
-{% highlight bash %}
-proyectile(target,recoil)scattered @ Energy MeV 
+<pre><code class="language-bash">proyectile(target,recoil)scattered @ Energy MeV
 projectile target diff recoil Q exc-recoil exc-pro
 initialEnergy finalEnergy increment
 initialAngle  finalAngle  increment
-{% endhighlight %}
+</code></pre>
 
 
 		<p>For example:</p>
 
-{% highlight bash %}
-78Ni(p,p)78Ni @ 7800 MeV   
+<pre><code class="language-bash">78Ni(p,p)78Ni @ 7800 MeV
 78. 1. 78. 1.  0.  0.  0.
 7800.  7800.  1.
 0. 180.  .1
-{% endhighlight %}
+</code></pre>
 
 
 		<p>The output of <code>CINE</code> are the energies and angles of the incident and scattered nucleus of a nuclear reaction. Visualize the results with <code>read.C</code>. This results can be used as input in the simulation mentioned in <a href="{{ site.url }}{{ page.dir }}/bragg.html">Bragg curves</a>. See an example in <a href="{{ site.url }}{{ page.dir }}/kinesim.html">kine simulation</a>.</p>
@@ -81,7 +75,7 @@ initialAngle  finalAngle  increment
 		</p>
 
 		<h5>Double magic nuclei</h5>
-		
+
 		<p>These nuclei have both the neutron and the proton shells closed, i.e., they are filled and can not accept more nucleons. As a result, they are very stable. In exotic nuclei, the shells are organized in a different way, and the magic numbers can change. <sup>78</sup>Ni for example, is one of the bounded nucleus with a bigger unbalance between the number of neutrons and protons (28 p + 50 n). <sup>78</sup>Ni is key in the syntesis of elements beyond iron in supernovas, but because it is double magic, the reactions can be delayed. <sup>78</sup>Ni is simulated in the repo.</p>
 
 		<h4>Transfer reactions</h4>
@@ -95,7 +89,7 @@ initialAngle  finalAngle  increment
 		<p>The projectile "steals" one or more nucleons from the target.</p>
 
 		<hr>
-		
+
 		<h2>The reactions</h2>
 
 		<p>Reactions in the repo:</p>
@@ -106,5 +100,5 @@ initialAngle  finalAngle  increment
 			<li>Transfer reaction: <sup>77</sup>Ni + d &#8594; p + <sup>78</sup>Ni at 10 MeV / u</li>
 			<li>Transfer reaction: <sup>78</sup>Ni + p &#8594; d + <sup>77</sup>Ni at 10 MeV / u</li>
 		</ul>
-		
+
 		<p class="published">Published: 2006-05-23 19:30</p>
